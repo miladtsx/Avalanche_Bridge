@@ -9,6 +9,7 @@ This starter kit will get you started with developing solidity smart contract dA
 - **Teleporter**: All contracts you may want to interact with Teleporter
 - **AWM Relayer**: The binary to run your own relayer
 - **Examples**: Contracts showcasing how to achieve common patterns, such as sending simple messages, call functions of a contract on another blockchain and bridging assets. Please note that these example contracts have not been audited and are for educational purposes only
+- **BuilderKit**: A component library providing UI elements for ICTT bridges, Cross-Chain swaps, ...
 
 ## Set Up
 
@@ -22,25 +23,11 @@ You can run them directly on Github by clicking **Code**, switching to the **Cod
 
 Alternatively, you can run them locally. You need [docker](https://www.docker.com/products/docker-desktop/) installed and [VS Code](https://code.visualstudio.com/) with the extensions [Dev Container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers). Then clone the repository and open it in VS Code. VS Code will ask you if you want to reopen the project in a container.
 
-If you are running on Apple Silicon you may run into issues while opening and running your dev container in VSCode. The issue resides in Foundry platform targeting. The fix is currently in draft: <https://github.com/foundry-rs/foundry/pull/7512>
-
-To workaround, please edit the file `Dockerfile` to include `--platform linux/amd64` before pulling Foundry.
-
-```
-# .devcontainer/Dockerfile
-FROM avaplatform/avalanche-cli:latest as avalanche-cli
-FROM avaplatform/awm-relayer:latest as awm-relayer
-FROM --platform=linux/amd64 ghcr.io/foundry-rs/foundry:latest as foundry
-...
-```
-
-This should allow you to open the dev container in VSCode.
-
 ## Starting a local Avalanche Network
 
 To start a local Avalanche network with your own teleporter-enabled L1 inside the container follow these commands. Your Avalanche network will be completely independent of the Avalanche Mainnet and Fuji Testnet. It will have its own Primary Network (C-Chain, X-Chain & P-Chain). You will not have access to services available on Fuji (such as Chainlink services or bridges). If you require these, go to the [Fuji Testnet](#fuji-testnet) section.
 
-First let's create out L1 configuration. Follow the dialog and if you don't have special requirements for precompiles just follow the suggested options. For the Airdrop of the native token select "Airdrop 1 million tokens to the default ewoq address (do not use in production)". Keep the name "mysubnet" to avoid additional configuration.
+First let's create out L1 configuration. Follow the dialog and if you don't have special requirements for precompiles just follow the suggested options. For the Airdrop of the native token select "Airdrop 1 million tokens to the default ewoq address (do not use in production)". Keep the name `myblockchain` to avoid additional configuration.
 
 ```
 avalanche blockchain create myblockchain
@@ -62,9 +49,25 @@ anotherblockchain = "http://localhost:9650/ext/bc/BASE58_BLOCKCHAIN_ID/rpc"
 ```
 
 ## Code Examples
-- [0-send-receive](src/0-send-receive/_INSTRUCTIONS.md) 
-- [1-send-roundtrip](src/2-invoking-functions/_INSTRUCTIONS.md)
-- [2-invoking-functions](src/0-send-receive/_INSTRUCTIONS.md)
-- [3-registry](src/3-registry/_INSTRUCTIONS.md)
-- [4-creating-contracts](src/4-creating-contracts/_INSTRUCTIONS.md)
-- [x-erc721-bridge](src/x-erc721-bridge/Readme.md)
+
+### Interchain Messaging
+- [send-receive](https://academy.avax.network/course/interchain-messaging/04-icm-basics/01-icm-basics) 
+- [send-roundtrip](https://academy.avax.network/course/interchain-messaging/05-two-way-communication/01-two-way-communication)
+- [invoking-functions](https://academy.avax.network/course/interchain-messaging/06-invoking-functions/01-invoking-functions)
+- [registry](https://academy.avax.network/course/interchain-messaging/07-icm-registry/01-icm-registry)
+- [incentivized-relayer](https://academy.avax.network/course/interchain-messaging/12-incentivizing-a-relayer/01-incentivizing-a-relayer)
+
+### Interchain Token Transfer
+- [erc20-to-erc20](https://academy.avax.network/course/interchain-token-transfer/06-erc-20-to-erc-20-bridge/01-erc-20-to-erc-20-bridge) 
+- [native-to-erc20](https://academy.avax.network/course/interchain-token-transfer/08-native-to-erc-20-bridge/01-native-to-erc-20-bridge)
+- [native-to-native](https://academy.avax.network/course/l1-tokenomics/03-multi-chain-ecosystems/04-use-any-native-as-native-token)
+- [erc20-to-native](https://academy.avax.network/course/l1-tokenomics/03-multi-chain-ecosystems/03-use-erc20-as-native-token)
+- [cross-chain-token-swaps](https://academy.avax.network/course/interchain-token-transfer/13-cross-chain-token-swaps/07-exchange-contract)
+
+### Misc
+- [creating-contracts](contracts/misc/creating-contracts/REAEDME.md)
+- [erc721-bridge](contracts/misc/erc721-bridge/README.md)
+
+
+## Web-Apps
+- [AvaCloud APIs](https://academy.avax.network/course/avacloudapis)
